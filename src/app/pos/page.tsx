@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Blocks, Plus, Search, Edit2, Trash2, Package, Star,
   TrendingUp, AlertTriangle, RefreshCw, ImageIcon, LogOut,
-  LayoutDashboard, ShoppingCart, List, Minus, Printer, CheckCircle, SearchIcon, Clock
+  LayoutDashboard, ShoppingCart, List, Minus, Printer, CheckCircle, Clock
 } from "lucide-react";
 import Image from "next/image";
 import ProductModal from "./components/ProductModal";
@@ -81,9 +81,15 @@ export default function POSPage() {
     try {
       const res = await fetch("/api/products");
       const data = await res.json();
-      setProducts(data);
+      if (!res.ok || !Array.isArray(data)) {
+        showToast("error", data?.error || "Failed to load products");
+        setProducts([]);
+      } else {
+        setProducts(data);
+      }
     } catch {
       showToast("error", "Failed to load products");
+      setProducts([]);
     } finally {
       setLoading(false);
     }
@@ -177,12 +183,14 @@ export default function POSPage() {
   };
 
   const filtered = products.filter((p) => {
-    const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) || p.category.toLowerCase().includes(search.toLowerCase());
-    const matchesCategory = activeCategory === "All" || p.category.toLowerCase() === activeCategory.toLowerCase();
+    const pCategory = p.category || "";
+    const pName = p.name || "";
+    const matchesSearch = pName.toLowerCase().includes(search.toLowerCase()) || pCategory.toLowerCase().includes(search.toLowerCase());
+    const matchesCategory = activeCategory === "All" || pCategory.toLowerCase() === activeCategory.toLowerCase();
     return matchesSearch && matchesCategory;
   });
 
-  const uniqueCategories = ["All", ...Array.from(new Set(products.map(p => p.category)))];
+  const uniqueCategories = ["All", ...Array.from(new Set(products.map(p => p.category || "")))];
 
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-[#08080f] via-[#11111a] to-[#08080f] text-[#F8F8F8]">
@@ -253,7 +261,7 @@ export default function POSPage() {
                   <p className="text-white/40 text-sm">Fulfill orders with precision.</p>
                 </div>
                 <div className="relative w-72">
-                  <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+                  <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
                   <input
                     type="text"
                     placeholder="Search products..."
@@ -298,10 +306,10 @@ export default function POSPage() {
                         {p.imageUrl ? (
                           <Image src={p.imageUrl} alt={p.name} fill className="object-contain p-2 drop-shadow-2xl" />
                         ) : (
-                          <div className="text-4xl drop-shadow-xl">{categoryEmojis[p.category] || "📦"}</div>
+                          <div className="text-4xl drop-shadow-xl">{categoryEmojis[p.category || ""] || "📦"}</div>
                         )}
                       </div>
-                      <div className="text-[9px] font-black text-lego-yellow uppercase tracking-widest mb-1">{p.category}</div>
+                      <div className="text-[9px] font-black text-lego-yellow uppercase tracking-widest mb-1">{p.category || "UNKNOWN"}</div>
                       <h4 className="font-bold text-sm text-white line-clamp-1 mb-2 flex-1">{p.name}</h4>
                       
                       <div className="flex items-center justify-between mt-auto pt-2 border-t border-white/5">
@@ -351,7 +359,7 @@ export default function POSPage() {
                           {item.product.imageUrl ? (
                             <Image src={item.product.imageUrl} alt={item.product.name} fill className="object-contain p-1.5 drop-shadow-md" />
                           ) : (
-                            <span className="text-xl">{categoryEmojis[item.product.category] || "📦"}</span>
+                            <span className="text-xl">{categoryEmojis[item.product.category || ""] || "📦"}</span>
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -438,10 +446,10 @@ export default function POSPage() {
                   {products.map((p) => (
                     <div key={p.id} className="grid grid-cols-[60px_1fr_120px_100px_80px_100px] gap-4 px-5 py-3 items-center hover:bg-white/5 transition-colors">
                       <div className="w-12 h-12 rounded-xl bg-black/50 overflow-hidden relative border border-white/10">
-                        {p.imageUrl ? <Image src={p.imageUrl} alt={p.name} fill className="object-cover" /> : <div className="w-full h-full flex items-center justify-center">{categoryEmojis[p.category] || "📦"}</div>}
+                        {p.imageUrl ? <Image src={p.imageUrl} alt={p.name} fill className="object-cover" /> : <div className="w-full h-full flex items-center justify-center">{categoryEmojis[p.category || ""] || "📦"}</div>}
                       </div>
                       <div className="font-bold text-sm truncate">{p.name}</div>
-                      <div className="text-xs text-white/50 capitalize">{p.category}</div>
+                      <div className="text-xs text-white/50 capitalize">{p.category || "unknown"}</div>
                       <div className="font-mono text-sm">${p.price}</div>
                       <div><StockBadge stock={p.stock} /></div>
                       <div className="flex justify-end gap-2">
@@ -625,13 +633,14 @@ export default function POSPage() {
                   <div className="space-y-6">
                     {Object.entries(
                       products.reduce((acc, p) => {
-                        acc[p.category] = (acc[p.category] || 0) + p.stock;
+                        const cat = p.category || "unknown";
+                        acc[cat] = (acc[cat] || 0) + p.stock;
                         return acc;
                       }, {} as Record<string, number>)
                     ).sort(([,a], [,b]) => b - a).slice(0, 5).map(([cat, stock], i) => (
                       <div key={cat} className="group flex items-center gap-4">
                         <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-xl shadow-inner shrink-0">
-                          {categoryEmojis[cat.toLowerCase()] || "📦"}
+                          {categoryEmojis[(cat || "").toLowerCase()] || "📦"}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex justify-between mb-2">

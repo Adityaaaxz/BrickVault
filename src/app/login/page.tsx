@@ -357,9 +357,7 @@ export default function LoginPage() {
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                     >
-                      <p className="text-xs text-white/20">
-                        Demo: <span className="text-white/35 font-mono">admin</span> / <span className="text-white/35 font-mono">brickvault</span>
-                      </p>
+                      
                     </motion.div>
                   )}
                 </AnimatePresence>
