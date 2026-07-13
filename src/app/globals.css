@@ -144,8 +144,18 @@ body {
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-  overflow: hidden;
+  overflow: visible; /* allow studs to overflow */
   isolation: isolate;
+  text-decoration: none;
+}
+
+/* Compact nav variant — same stud/shadow, just smaller */
+.lego-btn-nav {
+  padding: 7px 18px;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  border-radius: 50px;
+  font-weight: 900;
 }
 
 .lego-btn::after {

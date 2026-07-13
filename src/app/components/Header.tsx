@@ -180,22 +180,18 @@ export default function Header() {
               {/* Divider */}
               <div className="hidden md:block w-px h-5 bg-white/10 mx-1" />
 
-              {/* Login button — BRICK colors: red→yellow gradient */}
+              {/* Login — BrickVault lego-btn-red (authentic stud button) */}
               <motion.a
                 href="/login"
-                whileHover={{ scale: 1.05, y: -1 }}
-                whileTap={{ scale: 0.95 }}
-                className="hidden md:flex items-center px-5 py-2 font-black text-sm rounded-lg transition-all duration-200"
-                style={{
-                  background: "linear-gradient(135deg, #D1120D 0%, #FF2A25 40%, #FFD500 100%)",
-                  color: "#1B1B1B",
-                  boxShadow: "0 3px 0 #8B0B08, 0 5px 20px rgba(209,18,13,0.35), inset 0 1px 0 rgba(255,255,255,0.2)",
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  fontSize: "0.72rem",
-                }}
+                className="hidden md:inline-flex lego-btn lego-btn-nav lego-btn-red"
+                whileHover={{ scale: 1.06, y: -2 }}
+                whileTap={{ y: 2, scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 onClick={() => playBrickClick()}
               >
+                {/* Studs — identical to LegoButton.tsx */}
+                <span className="absolute -top-[5px] left-1/4 w-2.5 h-2.5 rounded-full bg-white/20 border border-white/10" />
+                <span className="absolute -top-[5px] right-1/4 w-2.5 h-2.5 rounded-full bg-white/20 border border-white/10" />
                 Login
               </motion.a>
 
@@ -254,16 +250,12 @@ export default function Header() {
                 >
                   <a
                     href="/login"
-                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-black rounded-lg transition-all uppercase tracking-widest"
-                    style={{
-                      background: "linear-gradient(135deg, #D1120D 0%, #FF2A25 40%, #FFD500 100%)",
-                      color: "#1B1B1B",
-                      boxShadow: "0 3px 0 #8B0B08",
-                      fontSize: "0.72rem",
-                      letterSpacing: "0.06em",
-                    }}
+                    className="lego-btn lego-btn-red w-full justify-center"
+                    style={{ padding: "10px 24px", fontSize: "0.72rem", letterSpacing: "0.14em", borderRadius: "50px" }}
                     onClick={() => { playBrickClick(); setIsOpen(false); }}
                   >
+                    <span className="absolute -top-[5px] left-1/4 w-2.5 h-2.5 rounded-full bg-white/20 border border-white/10" />
+                    <span className="absolute -top-[5px] right-1/4 w-2.5 h-2.5 rounded-full bg-white/20 border border-white/10" />
                     Login
                   </a>
                 </motion.div>
