@@ -570,6 +570,98 @@ body {
   color: rgba(255,255,255,0.3);
 }
 
+/* ============================================
+   BRICK LABEL — Section tag/badge (LEGO style)
+   Sharp, bold, stud-accented. Not a pill.
+   ============================================ */
+
+.brick-label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px 6px 14px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  border-radius: 4px;
+  border: 1.5px solid transparent;
+  overflow: visible;
+}
+
+/* Stud (top-left corner dot) */
+.brick-label::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.25);
+}
+
+/* Stud (top-right corner dot) */
+.brick-label::after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.25);
+}
+
+.brick-label-yellow {
+  background: rgba(255,213,0,0.1);
+  border-color: rgba(255,213,0,0.35);
+  color: #FFD500;
+  box-shadow: 3px 0 0 #FFD500 inset, 0 2px 16px rgba(255,213,0,0.1);
+}
+.brick-label-yellow::before,
+.brick-label-yellow::after {
+  background: #FFD500;
+  box-shadow: 0 0 6px rgba(255,213,0,0.5);
+}
+
+.brick-label-blue {
+  background: rgba(0,85,191,0.12);
+  border-color: rgba(0,85,191,0.35);
+  color: #1A73E8;
+  box-shadow: 3px 0 0 #0055BF inset, 0 2px 16px rgba(0,85,191,0.1);
+}
+.brick-label-blue::before,
+.brick-label-blue::after {
+  background: #0055BF;
+  box-shadow: 0 0 6px rgba(0,85,191,0.5);
+}
+
+.brick-label-green {
+  background: rgba(0,133,43,0.1);
+  border-color: rgba(0,133,43,0.35);
+  color: #00852B;
+  box-shadow: 3px 0 0 #00852B inset, 0 2px 16px rgba(0,133,43,0.1);
+}
+.brick-label-green::before,
+.brick-label-green::after {
+  background: #00852B;
+  box-shadow: 0 0 6px rgba(0,133,43,0.5);
+}
+
+.brick-label-red {
+  background: rgba(209,18,13,0.1);
+  border-color: rgba(209,18,13,0.35);
+  color: #D1120D;
+  box-shadow: 3px 0 0 #D1120D inset, 0 2px 16px rgba(209,18,13,0.1);
+}
+.brick-label-red::before,
+.brick-label-red::after {
+  background: #D1120D;
+  box-shadow: 0 0 6px rgba(209,18,13,0.5);
+}
+
 /* Confetti piece */
 .confetti-piece {
   position: fixed;

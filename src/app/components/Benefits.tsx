@@ -132,10 +132,6 @@ export default function Benefits() {
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <ScrollReveal type="fade-up" className="text-center mb-14 sm:mb-20">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
-            style={{ background: "rgba(255,213,0,0.08)", border: "1px solid rgba(255,213,0,0.2)", color: "#FFD500" }}>
-            Why LEGO?
-          </span>
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white mb-4">
             More Than Just <span className="text-lego-yellow">Bricks</span>
           </h2>

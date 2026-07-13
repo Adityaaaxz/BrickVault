@@ -84,7 +84,6 @@ export default function InteractivePlayground() {
       <div className="absolute inset-0 bg-gradient-to-b from-lego-dark via-[#0a0a1a] to-lego-dark" />
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div className="text-center mb-10 sm:mb-14" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-          <span className="inline-block px-3 py-1 rounded-full bg-lego-green/10 border border-lego-green/20 text-lego-green text-xs font-bold uppercase tracking-widest mb-4">Interactive</span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">Brick <span className="text-lego-green">Playground</span></h2>
           <p className="text-sm sm:text-base text-white/40 max-w-xl mx-auto">Click bricks to add them, then drag to build. Let your creativity flow!</p>
         </motion.div>

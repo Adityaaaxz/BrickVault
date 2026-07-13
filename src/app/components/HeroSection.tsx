@@ -238,23 +238,6 @@ export default function HeroSection() {
 
       {/* Main content */}
       <div className="relative z-10 text-center px-4 sm:px-6 max-w-6xl mx-auto">
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 30, scale: 0.8 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ delay: 0.4, type: "spring", stiffness: 200, damping: 20 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8"
-          style={{
-            background: "rgba(255,213,0,0.08)",
-            border: "1px solid rgba(255,213,0,0.2)",
-            backdropFilter: "blur(12px)",
-            boxShadow: "0 0 30px rgba(255,213,0,0.1), inset 0 1px 0 rgba(255,255,255,0.1)",
-          }}
-        >
-          <Sparkles className="w-4 h-4 text-lego-yellow animate-pulse" />
-          <span className="text-xs sm:text-sm font-bold text-white/80 tracking-widest uppercase">Premium LEGO Experience</span>
-          <Star className="w-3 h-3 text-lego-yellow fill-current" />
-        </motion.div>
 
         {/* Title */}
         <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[9rem] font-black leading-none mb-6 sm:mb-8" style={{ perspective: "800px" }}>

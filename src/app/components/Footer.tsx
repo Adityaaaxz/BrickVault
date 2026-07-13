@@ -53,7 +53,7 @@ export default function Footer() {
                   </span>
                 </motion.a>
                 <p className="text-sm text-white/30 mb-6 max-w-xs leading-relaxed">
-                  The ultimate destination for premium LEGO sets. Building dreams one brick at a time since 2024.
+                  The ultimate destination for premium LEGO sets. Build Your Dreams
                 </p>
 
                 {/* Social icons */}
@@ -106,10 +106,10 @@ export default function Footer() {
           <div className="border-t pt-8 flex flex-col sm:flex-row items-center justify-between gap-4"
             style={{ borderColor: "rgba(255,255,255,0.05)" }}>
             <p className="text-[11px] text-white/20 uppercase tracking-[0.2em]">
-              © 2024 BrickVault. Not affiliated with the LEGO Group.
+              © 2026 BrickVault
             </p>
             <p className="flex items-center gap-1.5 text-[11px] text-white/20 uppercase tracking-[0.2em]">
-              Made with <Heart className="w-3 h-3 text-lego-red fill-current" /> by Dittosptra
+              Made with by Dittosptra
             </p>
           </div>
         </div>

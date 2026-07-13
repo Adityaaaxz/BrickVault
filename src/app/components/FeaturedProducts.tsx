@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useInView } from "framer-motion";
 import { Star, ShoppingBag, Package, ChevronLeft, ChevronRight, Eye } from "lucide-react";
 import LegoButton from "./LegoButton";
+import { useCart } from "@/lib/CartContext";
 
 type Product = {
   id: number; name: string; price: number; category: string;
@@ -28,9 +29,11 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
   const [added, setAdded] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.2 });
+  const { addToCart } = useCart();
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
+    addToCart();
     setAdded(true);
     setTimeout(() => setAdded(false), 2000);
   };
@@ -111,7 +114,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-2xl font-black text-white">${product.price}</span>
-              <LegoButton variant="yellow" size="sm" icon={<ShoppingBag className="w-3.5 h-3.5" />}>Add</LegoButton>
+              <LegoButton variant="yellow" size="sm" icon={<ShoppingBag className="w-3.5 h-3.5" />} onClick={handleAdd}>Add</LegoButton>
             </div>
           </div>
         </div>
@@ -209,13 +212,6 @@ export default function FeaturedProducts({ products }: { products: Product[] }) 
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          <motion.span
-            className="inline-block px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-5"
-            style={{ background: "rgba(0,85,191,0.12)", border: "1px solid rgba(0,85,191,0.25)", color: "#1A73E8" }}
-            whileHover={{ scale: 1.05 }}
-          >
-            Featured Collections
-          </motion.span>
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white mb-4">
             Iconic <span className="shimmer-text">LEGO</span> Sets
           </h2>

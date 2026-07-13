@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Blocks, ShoppingCart, Menu, X } from "lucide-react";
+import { Blocks, ShoppingCart, Search, Menu, X } from "lucide-react";
 import { playBrickClick } from "@/lib/sound";
+import { useCart } from "@/lib/CartContext";
 
 const navLinks = [
   { href: "#collections", label: "Collections" },
@@ -16,6 +17,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const { cartCount } = useCart();
   const { scrollYProgress } = useScroll();
   const progressWidth = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
   const progressRef = useRef<HTMLDivElement>(null);
@@ -136,39 +138,71 @@ export default function Header() {
               ))}
             </div>
 
-            {/* Cart + Mobile Toggle */}
-            <div className="flex items-center gap-2 sm:gap-3">
+            {/* Right side: Search + Cart + Login + Mobile Toggle */}
+            <div className="flex items-center gap-1 sm:gap-2">
+              {/* Search */}
               <motion.button
-                whileHover={{ scale: 1.12 }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.88 }}
-                className="relative p-2.5 text-white/60 hover:text-lego-yellow transition-colors rounded-xl hover:bg-white/5"
+                className="p-2.5 text-white/50 hover:text-white transition-colors rounded-xl hover:bg-white/5"
                 onClick={() => playBrickClick()}
+                aria-label="Search"
               >
-                <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6" />
-                <motion.span
-                  className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-lego-red rounded-full flex items-center justify-center text-[10px] font-black text-white"
-                  style={{ boxShadow: "0 0 8px rgba(209,18,13,0.6)" }}
-                  animate={{ scale: [1, 1.2, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  3
-                </motion.span>
+                <Search className="w-5 h-5" />
               </motion.button>
 
+              {/* Cart — real-time count from context */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.88 }}
+                className="relative p-2.5 text-white/50 hover:text-white transition-colors rounded-xl hover:bg-white/5"
+                onClick={() => playBrickClick()}
+                aria-label="Shopping cart"
+              >
+                <ShoppingCart className="w-5 h-5" />
+                <AnimatePresence>
+                  {cartCount > 0 && (
+                    <motion.span
+                      key={cartCount}
+                      className="absolute -top-0.5 -right-0.5 min-w-[18px] h-[18px] bg-lego-red rounded-full flex items-center justify-center text-[9px] font-black text-white px-0.5"
+                      style={{ boxShadow: "0 0 8px rgba(209,18,13,0.6)" }}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0, opacity: 0 }}
+                      transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                    >
+                      {cartCount}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+
+              {/* Divider */}
+              <div className="hidden md:block w-px h-5 bg-white/10 mx-1" />
+
+              {/* Login button — BRICK colors: red→yellow gradient */}
               <motion.a
                 href="/login"
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -1 }}
                 whileTap={{ scale: 0.95 }}
-                className="hidden md:flex items-center gap-2 px-4 py-2 bg-lego-red/10 text-lego-red hover:bg-lego-red/20 font-bold text-sm rounded-lg transition-colors border border-lego-red/20"
+                className="hidden md:flex items-center px-5 py-2 font-black text-sm rounded-lg transition-all duration-200"
+                style={{
+                  background: "linear-gradient(135deg, #D1120D 0%, #FF2A25 40%, #FFD500 100%)",
+                  color: "#1B1B1B",
+                  boxShadow: "0 3px 0 #8B0B08, 0 5px 20px rgba(209,18,13,0.35), inset 0 1px 0 rgba(255,255,255,0.2)",
+                  letterSpacing: "0.06em",
+                  textTransform: "uppercase",
+                  fontSize: "0.72rem",
+                }}
                 onClick={() => playBrickClick()}
               >
-                Login POS
+                Login
               </motion.a>
 
               {/* Mobile menu button */}
               <motion.button
                 whileTap={{ scale: 0.9 }}
-                className="md:hidden p-2 text-white/70 hover:text-lego-yellow transition-colors rounded-lg hover:bg-white/5"
+                className="md:hidden p-2 text-white/70 hover:text-lego-yellow transition-colors rounded-lg hover:bg-white/5 ml-1"
                 onClick={() => { playBrickClick(); setIsOpen(!isOpen); }}
               >
                 <AnimatePresence mode="wait">
@@ -220,10 +254,17 @@ export default function Header() {
                 >
                   <a
                     href="/login"
-                    className="flex items-center justify-center w-full gap-2 px-4 py-3 text-sm font-bold text-lego-red bg-lego-red/10 hover:bg-lego-red/20 rounded-xl transition-all border border-lego-red/20"
+                    className="flex items-center justify-center w-full px-4 py-3 text-sm font-black rounded-lg transition-all uppercase tracking-widest"
+                    style={{
+                      background: "linear-gradient(135deg, #D1120D 0%, #FF2A25 40%, #FFD500 100%)",
+                      color: "#1B1B1B",
+                      boxShadow: "0 3px 0 #8B0B08",
+                      fontSize: "0.72rem",
+                      letterSpacing: "0.06em",
+                    }}
                     onClick={() => { playBrickClick(); setIsOpen(false); }}
                   >
-                    Login POS
+                    Login
                   </a>
                 </motion.div>
               </div>
